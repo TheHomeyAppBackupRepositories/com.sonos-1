@@ -1,0 +1,31 @@
+{
+  "name": "com.sonos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/athombv/com.sonos.git"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/athombv/com.sonos/issues"
+  },
+  "homepage": "https://github.com/athombv/com.sonos#readme",
+  "dependencies": {
+    "homey-oauth2app": "^3.2.5",
+    "node-fetch": "^2.3.0",
+    "promise-queue": "^2.2.5"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "eslint-config-athom": "^3.0.0"
+  }
+}

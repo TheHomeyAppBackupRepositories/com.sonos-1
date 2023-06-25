@@ -1,0 +1,8 @@
+{
+  "soundboard_not_installed": "Please install the Soundboard app.",
+  "oauth2": {
+    "error": {
+      "ERROR_PLAYBACK_NO_CONTENT": "There is no content in the playback queue."
+    }
+  }
+}
