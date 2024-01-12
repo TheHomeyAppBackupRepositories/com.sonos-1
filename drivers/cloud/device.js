@@ -180,8 +180,18 @@ module.exports = class SonosConnectDevice extends OAuth2Device {
         .catch(this.error);
     }
 
-    // Check if already same group
-    if (this.groupId === groupId) return;
+    // Check if already same group, if so don't resubscribe. Also check if group was updated (moved or removed)
+    // in that case do resubscribe:
+    // "Subscriptions live for a maximum of three days. If a target player shuts down and does not connect back
+    // within the next 30 seconds, it wipes clean any target subscriptions. If this player was part of a group
+    // and the other group members stay connected while the target player is gone, one of the other group members
+    // will claim the subscription. If there are any group changes, you should receive a global event indicating
+    // group modifications when Sonos cleans up a subscription. Your client must also resubscribe based on any
+    // response or event indicating that a group has moved or is gone."
+    // From "Subscription lifetime" at https://devdocs.sonos.com/docs/subscribe.
+    if (this.groupId === groupId && !this.groupWasUpdated) return;
+    this.groupWasUpdated = false; // Reset group was gone flag
+
     // When the speaker has joined a new group
 
     // Unsubscribe first
@@ -283,7 +293,6 @@ module.exports = class SonosConnectDevice extends OAuth2Device {
     } = currentItem;
 
     const {
-      id,
       name,
       imageUrl,
       album,
@@ -314,19 +323,7 @@ module.exports = class SonosConnectDevice extends OAuth2Device {
       this.imageUrl = imageUrl;
 
       try {
-        // If Spotify, we can get an HTTPS URL
-        if (typeof id === 'object'
-          && id !== null
-          && typeof id.objectId === 'string'
-          && track.id.objectId.startsWith('spotify:')) {
-          fetch(`https://open.spotify.com/oembed?url=${track.id.objectId}`)
-            .then(async res => {
-              if (!res.ok) throw new Error(res.statusText);
-
-              const json = await res.json();
-              if (json.thumbnail_url) this.image.setUrl(json.thumbnail_url);
-            }).catch(this.error);
-        } else if (typeof imageUrl === 'string' && imageUrl.startsWith('https:')) {
+        if (typeof imageUrl === 'string' && imageUrl.startsWith('https:')) {
           this.image.setUrl(imageUrl);
         } else if (typeof imageUrl === 'string' && imageUrl.startsWith('http:')) {
           this.image.setStream(this.onGetAlbumArtStream);
@@ -386,6 +383,9 @@ module.exports = class SonosConnectDevice extends OAuth2Device {
 
     if (['GROUP_STATUS_GONE', 'GROUP_STATUS_UPDATED'].includes(groupStatus)) {
       this.log('GROUP_STATUS_GONE - GROUP_STATUS_UPDATED', body);
+
+      // Mark group as updated (see Device#_setGroup)
+      this.groupWasUpdated = true;
       this.oAuth2Client.syncGroupsDebounced();
     }
 
@@ -604,13 +604,21 @@ module.exports = class SonosConnectDevice extends OAuth2Device {
       playerId,
     } = this;
 
-    await this.oAuth2Client.modifyGroupMembers({
+    const result = await this.oAuth2Client.modifyGroupMembers({
       householdId,
       groupId,
       playerIdsToAdd: [
         playerId,
       ],
     });
+
+    // Throw if playerIds array is not available in response
+    if (!result || !result.group || !Array.isArray(result.group.playerIds)) {
+      throw new Error(this.homey.__('oauth2.error.ADD_GROUP_INVALID_RESPONSE'));
+    }
+
+    // Throw if playerId is not included in group.playerIds (i.e. player was not added to group)
+    if (result.group.playerIds.includes(playerId) === false) throw new Error(this.homey.__('oauth2.error.ADD_GROUP_FAILED'));
 
     await this.oAuth2Client.syncGroupsDebounced();
   }
