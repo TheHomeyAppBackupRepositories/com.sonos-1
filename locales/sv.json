@@ -1,0 +1,10 @@
+{
+  "soundboard_not_installed": "Vänligen installera Soundboard-appen.",
+  "oauth2": {
+    "error": {
+      "ERROR_PLAYBACK_NO_CONTENT": "Det finns inget innehåll i uppspelningskön.",
+      "ADD_GROUP_INVALID_RESPONSE": "Fick ett ogiltigt svar efter att ha gått med i gruppen.",
+      "ADD_GROUP_FAILED": "Kunde inte gå med i gruppen, se till att enheten är påslagen."
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "soundboard_not_installed": "Installeer alsjeblieft de Soundboard-app.",
+  "oauth2": {
+    "error": {
+      "ERROR_PLAYBACK_NO_CONTENT": "De afspeellijst is leeg.",
+      "ADD_GROUP_INVALID_RESPONSE": "Ongeldig antwoord ontvangen na het verbinden met de groep.",
+      "ADD_GROUP_FAILED": "Kon niet verbinden met de groep, zorg ervoor dat het apparaat is ingeschakeld."
+    }
+  }
+}

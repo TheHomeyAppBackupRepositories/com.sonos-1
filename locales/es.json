@@ -1,0 +1,10 @@
+{
+  "soundboard_not_installed": "Por favor, instala la aplicación Soundboard.",
+  "oauth2": {
+    "error": {
+      "ERROR_PLAYBACK_NO_CONTENT": "No hay contenido en la cola de reproducción.",
+      "ADD_GROUP_INVALID_RESPONSE": "Respuesta no válida recibida después de unirse al grupo.",
+      "ADD_GROUP_FAILED": "No se pudo unirse al grupo, asegúrate de que el dispositivo esté encendido."
+    }
+  }
+}

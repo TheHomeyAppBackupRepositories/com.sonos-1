@@ -1,0 +1,10 @@
+{
+  "soundboard_not_installed": "Bitte installiere die Soundboard-App.",
+  "oauth2": {
+    "error": {
+      "ERROR_PLAYBACK_NO_CONTENT": "Es gibt keinen Inhalt in der Wiedergabeliste.",
+      "ADD_GROUP_INVALID_RESPONSE": "Ungültige Antwort nach dem Beitritt zur Gruppe erhalten.",
+      "ADD_GROUP_FAILED": "Konnte der Gruppe nicht beitreten, stelle sicher, dass das Gerät eingeschaltet ist."
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "soundboard_not_installed": "Zainstaluj aplikację Soundboard.",
+  "oauth2": {
+    "error": {
+      "ERROR_PLAYBACK_NO_CONTENT": "Brak treści w kolejce odtwarzania.",
+      "ADD_GROUP_INVALID_RESPONSE": "Otrzymano nieprawidłową odpowiedź po dołączeniu do grupy.",
+      "ADD_GROUP_FAILED": "Nie udało się dołączyć do grupy, upewnij się, że urządzenie jest włączone."
+    }
+  }
+}

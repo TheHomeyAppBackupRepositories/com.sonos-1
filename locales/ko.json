@@ -1,0 +1,10 @@
+{
+  "soundboard_not_installed": "사운드보드 앱을 설치해주세요.",
+  "oauth2": {
+    "error": {
+      "ERROR_PLAYBACK_NO_CONTENT": "재생 대기열에 콘텐츠가 없습니다.",
+      "ADD_GROUP_INVALID_RESPONSE": "그룹에 가입한 후 잘못된 응답을 받았습니다.",
+      "ADD_GROUP_FAILED": "그룹에 가입할 수 없습니다. 기기의 전원이 켜져 있는지 확인하세요."
+    }
+  }
+}

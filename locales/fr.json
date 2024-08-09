@@ -1,0 +1,10 @@
+{
+  "soundboard_not_installed": "Veuillez installer l'application Soundboard.",
+  "oauth2": {
+    "error": {
+      "ERROR_PLAYBACK_NO_CONTENT": "Il n'y a pas de contenu dans la file d'attente de lecture.",
+      "ADD_GROUP_INVALID_RESPONSE": "Réponse invalide reçue après avoir rejoint le groupe.",
+      "ADD_GROUP_FAILED": "Impossible de rejoindre le groupe, assurez-vous que l'appareil est allumé."
+    }
+  }
+}

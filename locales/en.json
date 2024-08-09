@@ -2,7 +2,9 @@
   "soundboard_not_installed": "Please install the Soundboard app.",
   "oauth2": {
     "error": {
-      "ERROR_PLAYBACK_NO_CONTENT": "There is no content in the playback queue."
+      "ERROR_PLAYBACK_NO_CONTENT": "There is no content in the playback queue.",
+      "ADD_GROUP_INVALID_RESPONSE": "Received invalid response after joining the group.",
+      "ADD_GROUP_FAILED": "Could not join the group, make sure the device is powered on."
     }
   }
 }

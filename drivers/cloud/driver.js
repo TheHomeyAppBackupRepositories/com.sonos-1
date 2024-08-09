@@ -129,7 +129,7 @@ module.exports = class SonosConnectDriver extends OAuth2Driver {
         });
       });
 
-    // Join another player's group
+    // Join another player's group (legacy)
     this.homey.flow.getActionCard('cloud_join_player')
       .registerRunListener(async ({ device, player }) => {
         if (!player) {
@@ -144,10 +144,58 @@ module.exports = class SonosConnectDriver extends OAuth2Driver {
           throw new Error('Other player has no group');
         }
 
-        return device.joinGroup({
+        if (device.householdId !== player.householdId) {
+          throw new Error('Other player is in different household');
+        }
+
+        await device.joinGroup({
           groupId: player.groupId,
         });
+
+        return true;
       });
+
+    
+    this.homey.flow.getActionCard('cloud_join_household_player')
+      .registerRunListener(async ({ device, player }, state) => {
+        const playerDevice = this.getDeviceById(player.id);
+
+        if (!playerDevice) {
+          throw new Error('Player does not exist anymore');
+        }
+
+        if (this.id !== 'cloud') {
+          throw new Error('Legacy player selected');
+        }
+
+        if (!playerDevice.groupId) {
+          throw new Error('Other player has no group');
+        }
+
+        if (device.householdId !== playerDevice.householdId) {
+          throw new Error('Other player is in different household');
+        }
+
+        await device.joinGroup({ 
+          groupId: playerDevice.groupId 
+        });
+        
+        return true;
+      })
+      .getArgument('player')
+      .registerAutocompleteListener(async (query, args) => {
+        return this.getDevices().filter(device => {
+          return device.householdId === args.device.householdId;
+        }).filter(device => {
+          return device.getName().toLowerCase().includes(query.toLowerCase());
+        }).map(device => { 
+          return {
+            name: device.getName(),
+            id: device.getId(),
+          }
+         });
+      });
+
 
     // Join another player's group
     this.homey.flow.getActionCard('cloud_leave_current_group')
@@ -181,6 +229,10 @@ module.exports = class SonosConnectDriver extends OAuth2Driver {
 
         const playerId = player.id;
         const capabilities = this.manifest.capabilities.slice();
+        let serialNumbers = 'n/a';
+        if (player.devices) {
+          serialNumbers = player.devices.map(device => device.serialNumber).join(',');
+        }
 
         if (!player.capabilities.includes('PLAYBACK')) {
           return;
@@ -213,11 +265,13 @@ module.exports = class SonosConnectDriver extends OAuth2Driver {
             playerId,
             householdId,
           },
+          settings: {
+            serialNumbers,
+          }
         });
       });
     }));
 
     return result;
   }
-
 };
